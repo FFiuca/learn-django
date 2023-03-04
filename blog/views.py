@@ -6,4 +6,16 @@ def index(request):
     return render(request, 'blog.html')
 
 def recent(request):
-    return HttpResponse('Recent Blog')
+    context = {
+        'content' : 'ini content',
+        'list' : [
+            ['a', 'dadlakdjslk'],
+            ['b', 'hasdhkjashd'],
+            ['c', {
+                'nama' : 'caco',
+                'umur' : 25
+            }]
+        ]
+    }
+
+    return render(request, 'recent.html', context)

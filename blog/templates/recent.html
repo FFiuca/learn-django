@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My Recetnt Blog</h1>
+<p>Title {{ content }}.</p>
+<br>
+<p>{% csrf_token %}</p>
+
+<ul>
+    {% comment %} get row {% endcomment %}
+    {% for col in list%}
+        <li>{{ col }}</li>
+    {% endfor %}
+</ul>
+
+<ul>
+    {% comment %} destruct row {% endcomment %}
+    {% for col1, col2 in list%}
+        {% if col1 != 'c' %}
+            <li>{{ col1 }} {{ col2 }} </li>
+        {% else %}
+            <li>{{ col1 }} {{ col2.nama }} </li>
+        {% endif %}
+
+    {% endfor %}
+</ul>
+
+</body>
+</html>

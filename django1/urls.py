@@ -35,5 +35,5 @@ urlpatterns = [
     # re_path(r'^blog$', blogViews.index),
 
     # using app include, will jump out to blog app
-    path('blog/', include('blog.urls')),
+    re_path('blog/', include('blog.urls')),
 ]
