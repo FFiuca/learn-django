@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+# models
+from .models import Post
+
 # Create your views here.
 def index(request):
-    return render(request, 'blog.html')
+    context = {
+        'post': Post.objects.all()
+    }
+
+    print(context)
+    return render(request, 'blog.html', context)
 
 def recent(request):
     context = {

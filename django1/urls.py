@@ -36,4 +36,7 @@ urlpatterns = [
 
     # using app include, will jump out to blog app
     re_path('blog/', include('blog.urls')),
+
+    # third
+    re_path('__debug__/', include('debug_toolbar.urls')),
 ]
