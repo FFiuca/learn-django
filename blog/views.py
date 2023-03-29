@@ -14,6 +14,8 @@ def index(request):
     return render(request, 'blog.html', context)
 
 def recent(request):
+    Post.objects.filter(id=1).get()
+
     context = {
         'content' : 'ini content',
         'list' : [
