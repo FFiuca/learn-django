@@ -27,3 +27,12 @@ def recent(request):
     }
 
     return render(request, 'recent.html', context)
+
+def detail(request, id):
+    print(request)
+    # return HttpResponse('aa')
+    context = {
+        'data' : Post.objects.get(pk=id)
+    }
+
+    return render(request, 'detail.html', context)
