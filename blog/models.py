@@ -22,5 +22,5 @@ class Post(models.Model):
 
     def __str__(self):
         # print(self)
-        return "{}".format(self.title)
+        return "{}, {}".format(self.title, self.body)
 
