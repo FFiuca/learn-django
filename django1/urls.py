@@ -29,13 +29,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^index$', first.index),
     re_path(r'^index2$', first.index2),
-    re_path(r'^about$', aboutViews.index),
+    # re_path(r'^about$', aboutViews.index),
 
     # traditional
     # re_path(r'^blog$', blogViews.index),
 
     # using app include, will jump out to blog app
-    re_path('blog/', include('blog.urls')),
+    # re_path('blog/', include('blog.urls', namespace='blog')),
+    re_path('blog/', include('blog.urls')), # important thing is code app_name='' in urls app
+
+    re_path('about/', include('about.urls')), 
 
     # third
     re_path('__debug__/', include('debug_toolbar.urls')),

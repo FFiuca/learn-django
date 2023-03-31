@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     # register app
     'blog',
+    'django1',
 ]
 
 MIDDLEWARE = [
