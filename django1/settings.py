@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # register app
     'blog',
     'django1',
+    'formValidator'
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'python',
         'USER' : 'root',
-        'PASSWORD' : ''
+        'PASSWORD' : 'root'
     }
 }
 

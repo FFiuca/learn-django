@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('detail/<int:id>', views.detail, name='detail'),
 
-    path('post/add', postFunction.add, name='post.add')
+    path('post/add', postFunction.add, name='post.add'),
+    path('post/add2', postFunction.add2, name='post.add2')
     # re_path(r'^detail/<int:id>', views.detail),
 ]

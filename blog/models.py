@@ -13,8 +13,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=True, editable=False)
 
-    # override method from super/parent class
-    def save(self):
+    # override method from super/parent class, must include *args, **kwargs
+    def save(self, *args, **kwargs):
         print(self)
 
         self.slug = slugify(self.title)
