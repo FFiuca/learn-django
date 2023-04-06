@@ -15,3 +15,13 @@ class PostForm(forms.Form):
 
         return title
 
+# this is another way to generate form by model, class Meta
+class PostModelForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            'title',
+            'body',
+            'email',
+        ]
+

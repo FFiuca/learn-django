@@ -3,7 +3,19 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from blog.forms import postForm
 from django.core.exceptions import ValidationError
+from django.core import serializers
 # import json
+
+@csrf_exempt
+def get(request):
+    data = Post.objects.all()
+
+    # it mean, only dict or list can return on jsonresponse, so you must convert all values first
+    return JsonResponse({
+        'status' : 200,
+        # 'data' : serializers.serialize(format='json', queryset=data) # return json encode in json
+        'data' : list( data.values()) # .values() is python snippet that can convert to list data type from dict
+    }, json_dumps_params={'indent': 4})
 
 @csrf_exempt
 def add(request):
@@ -96,3 +108,28 @@ def add2(request):
         'status' : 200,
         'data' : ''
     }, json_dumps_params={'indent': 4})
+
+
+@csrf_exempt
+def add3(request):
+    add = None
+
+    try:
+        add = postForm.PostModelForm(request.POST)
+
+        if add.is_valid():
+            #  this directly save from form model validation
+            add.save()
+            print(add)
+    except ValidationError as e:
+        return JsonResponse({
+            'status' : 500,
+            'data' : {
+                'error' : str(e)
+            }
+        }, json_dumps_params={'indent': 4})
+
+    return JsonResponse({
+        'status' : 200,
+        'data' : ''
+    }, json_dumps_params={'indent':4})
