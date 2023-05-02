@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # third
     "debug_toolbar",
+    "django_extensions",
 
     # register app
     'blog',
@@ -104,7 +105,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'python',
         'USER' : 'root',
-        'PASSWORD' : 'root'
+        'PASSWORD' : ''
     }
 }
 

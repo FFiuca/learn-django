@@ -25,6 +25,8 @@ from .views import first
 from blog import views as blogViews
 from about import views as aboutViews
 
+from auth import views as authViews
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^index$', first.index),
@@ -37,8 +39,8 @@ urlpatterns = [
     # using app include, will jump out to blog app
     # re_path('blog/', include('blog.urls', namespace='blog')),
     re_path('blog/', include('blog.urls')), # important thing is code app_name='' in urls app
-
     re_path('about/', include('about.urls')), 
+    re_path('auth/', include('auth.urls')),
 
     # third
     re_path('__debug__/', include('debug_toolbar.urls')),
