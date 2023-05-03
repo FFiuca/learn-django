@@ -74,7 +74,7 @@ def add2(request):
         add.clean_fields()
         add.clean()
         add.validate_unique()
-
+        
         # add.full
 
         # add = Post.objects.create(

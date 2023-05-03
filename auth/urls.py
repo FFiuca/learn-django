@@ -4,6 +4,6 @@ from auth.functions import AuthFunct
 
 app_name = 'auth'
 urlpatterns = [
-    re_path('login', AuthFunct.login),
+    re_path('login', AuthFunct.auth_login),
 
 ]

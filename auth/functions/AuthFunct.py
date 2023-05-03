@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from auth.forms.loginForm import LoginForm
 from django.core.exceptions import ValidationError
+from django.forms.models import model_to_dict
 
 @csrf_exempt
-def login(request):
+def auth_login(request):
     data = LoginForm(request.POST)
 
     try:
@@ -16,14 +17,16 @@ def login(request):
         password = data.cleaned_data.get('password')
 
         user = authenticate(request, username=username, password=password)
-        print(user)
+        print(user.__dict__)
+        print(vars(user))
+        print(model_to_dict(user))
         if user is not None:
             login(request, user)
 
             return JsonResponse({
                 'status' : 200,
                 'data' : {
-                    'user' : user
+                    'user' : model_to_dict(user)
                 }
             }, json_dumps_params={'indent' : 4})
         else :
