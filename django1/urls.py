@@ -41,6 +41,7 @@ urlpatterns = [
     re_path('blog/', include('blog.urls')), # important thing is code app_name='' in urls app
     re_path('about/', include('about.urls')), 
     re_path('auth/', include('auth.urls')),
+    re_path('api/', include('api.urls')),
 
     # third
     re_path('__debug__/', include('debug_toolbar.urls')),

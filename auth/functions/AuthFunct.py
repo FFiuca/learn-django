@@ -22,7 +22,7 @@ def auth_login(request):
         print(model_to_dict(user))
         if user is not None:
             login(request, user)
-
+            
             return JsonResponse({
                 'status' : 200,
                 'data' : {
