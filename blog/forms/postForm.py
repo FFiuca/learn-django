@@ -7,6 +7,7 @@ class PostForm(forms.Form):
     body = forms.CharField(required=True, widget=forms.Textarea)
 
     # this is custom validation. this is a hook, will call after clean function standard from django run for extended validation
+    # must prefixed with clean_ function name
     def clean_title(self):
         title = self.cleaned_data.get('title')
 
