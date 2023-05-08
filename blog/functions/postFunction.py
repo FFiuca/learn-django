@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from blog.forms import postForm
 from django.core.exceptions import ValidationError
 from django.core import serializers
+from abc import ABC, abstractmethod
+from django.contrib.auth.decorators import login_required
+
 # import json
 
 @csrf_exempt
@@ -61,7 +64,7 @@ def add(request):
     }, json_dumps_params={'indent': 4})
 
 
-# validatio on layer model
+# validation on layer model
 @csrf_exempt
 def add2(request):
     add = None
@@ -74,7 +77,7 @@ def add2(request):
         add.clean_fields()
         add.clean()
         add.validate_unique()
-        
+
         # add.full
 
         # add = Post.objects.create(
@@ -111,9 +114,13 @@ def add2(request):
 
 
 @csrf_exempt
-def add3(request):
+@login_required(login_url='/login/')
+def add3(request):   
     add = None
 
+    print('\'')
+    print(request.user)
+    print('\'')
     try:
         add = postForm.PostModelForm(request.POST)
 
