@@ -70,8 +70,9 @@ def add2(request):
     add = None
 
     try:
-        add = Post(request.POST)
+        add = Post(request.POST or None)
 
+        # samethink with below, just directly call clean_fields, clean, validate_unique in one method
         # add.full_clean()
 
         add.clean_fields()
@@ -89,7 +90,7 @@ def add2(request):
         #     title=request.POST.get('title'),
         #     body=request.POST.get('body'),
         # )
-        # add.save()
+        add.save()
 
         # print(add)
     except ValidationError as e:
@@ -127,7 +128,9 @@ def add3(request):
         if add.is_valid():
             #  this directly save from form model validation
             add.save()
-            print(add)
+            # print(add)
+        else :
+            raise ValidationError(add.errors)
     except ValidationError as e:
         return JsonResponse({
             'status' : 500,
