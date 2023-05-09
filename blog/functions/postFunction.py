@@ -119,9 +119,9 @@ def add2(request):
 def add3(request):   
     add = None
 
-    print('\'')
+    # print('\'')
     print(request.user)
-    print('\'')
+    # print('\'')
     try:
         add = postForm.PostModelForm(request.POST)
 
