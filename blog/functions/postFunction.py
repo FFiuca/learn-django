@@ -4,6 +4,11 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from blog.forms import postForm
 from django.core.exceptions import ValidationError
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
 # import json
 
 @csrf_exempt
@@ -75,7 +80,7 @@ def add2(request):
         add.clean_fields()
         add.clean()
         add.validate_unique()
-        
+
         # add.full
 
         # add = Post.objects.create(
@@ -112,6 +117,9 @@ def add2(request):
 
 
 @csrf_exempt
+# @api_view(['POST']) # less how to integrate api view with simple_jwt framework
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def add3(request):
     add = None
 
