@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from abc import ABC, abstractmethod
 # import json
 
 @csrf_exempt
@@ -66,7 +67,7 @@ def add(request):
     }, json_dumps_params={'indent': 4})
 
 
-# validatio on layer model
+# validation on layer model
 @csrf_exempt
 def add2(request):
     add = None
@@ -123,6 +124,9 @@ def add2(request):
 def add3(request):
     add = None
 
+    # print('\'')
+    print(request.user)
+    # print('\'')
     try:
         add = postForm.PostModelForm(request.POST)
 

@@ -1,9 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from auth.forms.loginForm import LoginForm
 from django.core.exceptions import ValidationError
 from django.forms.models import model_to_dict
+from django.shortcuts import redirect
 
 @csrf_exempt
 def auth_login(request):
@@ -19,7 +21,7 @@ def auth_login(request):
         user = authenticate(request, username=username, password=password)
         print(user.__dict__)
         print(vars(user))
-        print(model_to_dict(user))
+        # print(model_to_dict(user))
         if user is not None:
             login(request, user)
             
@@ -51,3 +53,11 @@ def auth_login(request):
                 'error' : str(e)
             }
         }, json_dumps_params={'indent': 4})
+
+
+@login_required
+def auth_logout(request):
+    logout(request)
+
+    return redirect('auth/login')
+
