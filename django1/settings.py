@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework_simplejwt",
+    # "clear_cache",
 
     # register app
     'blog',

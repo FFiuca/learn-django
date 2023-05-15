@@ -11,6 +11,16 @@ def auth_login(request):
 
     try:
         data = LoginForm(request.POST)
+
+        if(data.is_valid() is not True):
+            raise Exception('Validation error')
+        
+        user = authenticate(request, email=data.cleaned_data.get('email'), password=data.cleaned_data.get('password'))
+
+        if user is not None:
+            login(request, user)
+        else:
+            raise Exception('Something wrog')
     except Exception as e :
         return redirect(to='login', kwargs={
             'email' : request.POST.get('email')
