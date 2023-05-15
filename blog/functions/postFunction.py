@@ -118,9 +118,9 @@ def add2(request):
 
 
 @csrf_exempt
-# @api_view(['POST']) # less how to integrate api view with simple_jwt framework
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
+@api_view(['POST']) # this decorators will perform check is authenticated or not also
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
 def add3(request):
     add = None
 
