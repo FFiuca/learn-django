@@ -1,0 +1,3 @@
+# any match will be execute
+def any_permission(*perms):
+    return user_passes_test(lambda u: any(u.has_perm(perm) for perm in perms))

@@ -5,14 +5,14 @@
 <h1>My First Blog</h1>
 <p>My first paragraph.</p>
 
-{% comment %} {% load mytags %} {% endcomment %}
+{% load mytags %}
 
 <ul>
     <li><a href="/blog/recent">recent | url</a></li>
     <li><a href="{% url 'blog:recent' %}">recent | named url</a></li>
     <li><a href="{% url 'blog:recent' %}">recent | namespace url</a></li>
     <li><a href="{% url 'blog:detail' id=1 %}">post 1 | namespace param</a></li>
-    {% comment %} <li><a href="{% url 'recent' %}">{% my_sum 2 3 %}</a></li> {% endcomment %}
+    <li><a href="{% url 'blog:recent' %}">{% my_sum 2 3 %}</a></li>
     {% for el in post%}
         <li> {{ el.title }} </li>
     {% endfor %}

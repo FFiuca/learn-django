@@ -5,13 +5,16 @@ from django.contrib import admin
 # Register your models here.
 
 from .models import Post
-# from .Models import Category
+from .Models.category import Category
 
 
 # this for setting for class model
 class PostAdmin(admin.ModelAdmin):
     readonly_fields = ['slug']
 
+class CategoryAdmin(admin.ModelAdmin):
+    readonly_fields = ['created_at']
+
 # register your class model and his setting here
 admin.site.register(Post, PostAdmin)
-# admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)

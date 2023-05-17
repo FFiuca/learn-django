@@ -8,6 +8,7 @@ from .Models import category
 # Create your models here.
 
 class Post(models.Model):
+    id=models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True)
     body = models.TextField()
     email = models.EmailField(
@@ -24,6 +25,18 @@ class Post(models.Model):
         ('kamu', 'kamu')
     ])
 
+    category = models.OneToOneField(
+        category.Category,
+        on_delete=models.CASCADE,
+    )
+
+    # category = models.ForeignKey(category.Category, on_delete=models.CASCADE)
+
+    class Meta:
+        permissions =(
+            ('customer_pms_post', 'customer_pms_post2'),
+        )
+
     # override method from super/parent class, must include *args, **kwargs
     def save(self, *args, **kwargs):
         print(self)
@@ -34,4 +47,5 @@ class Post(models.Model):
     def __str__(self):
         # print(self)
         return "{}, {}".format(self.title, self.body)
+
 
