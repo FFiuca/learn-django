@@ -25,16 +25,19 @@ class Post(models.Model):
         ('kamu', 'kamu')
     ])
 
-    category = models.OneToOneField(
-        category.Category,
-        on_delete=models.CASCADE,
-    )
+    # category = models.OneToOneField(
+    #     category.Category,
+    #     on_delete=models.CASCADE,
+    # )
 
-    # category = models.ForeignKey(category.Category, on_delete=models.CASCADE)
+    # this for one to many relationship, will add column automatically, ex category_id
+    category = models.ForeignKey(category.Category, on_delete=models.CASCADE, null=True)
 
     class Meta:
         permissions =(
+            # (name, code)
             ('customer_pms_post', 'customer_pms_post2'),
+            ('customer_pms_post3', 'customer_pms_post4'),
         )
 
     # override method from super/parent class, must include *args, **kwargs
