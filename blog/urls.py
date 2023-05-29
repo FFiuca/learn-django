@@ -21,6 +21,7 @@ urlpatterns = [
     # path('post/add3', csrf_exempt(postFunction.add3), name='post.add3'),
     path('post/add3', postFunction.add3, name='post.add3'),
     path('post/get1', postFunction.get1, name='post.get1'),
+    path('post/getCat', postFunction.getCat, name='post.getCat'),
 
 
     # re_path(r'^detail/<int:id>', views.detail),

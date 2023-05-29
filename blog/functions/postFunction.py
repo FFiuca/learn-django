@@ -1,4 +1,5 @@
 from blog.models import Post
+from blog.Models.category import Category
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from blog.forms import postForm
@@ -11,6 +12,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from abc import ABC, abstractmethod
 from django.db.models import Q
+from blog.serializers.blog import PostSerializer, CategorySerializer
 # import json
 
 @csrf_exempt
@@ -157,18 +159,50 @@ def add3(request):
 def get1(request):
     param = ()
 
-    pk = request.POST.get('pk') or None
-    if pk is not None :
+    post = request.POST
+    pk = post.get('pk') or None
+    if pk is not None:
         # Q is useful to make dynamic query, just join and assemble at the end
         param= param + (Q(pk=pk),)
+    
+    title = post.get('title')
+    if title is not None:
+        param += param + (Q(title__icontains=title),)
 
     print(param)
     # assembling param tuple using * 
     param = Q(*param)
-    data = Post.objects.filter(param).all()
+    data = Post.objects.select_related('category').filter(param).all()
 
     return JsonResponse({
         'status' : 200,
         # 'data' : serializers.serialize(format='json', queryset=data) # return json encode in json
         'data' : list( data.values()) # .values() is python snippet that can convert to list data type from dict
     }, json_dumps_params={'indent': 4})
+
+@csrf_exempt
+def getCat(request):
+    param = ()
+
+    post = request.POST
+    pk = post.get('pk') or None
+    if pk is not None:
+        # Q is useful to make dynamic query, just join and assemble at the end
+        param= param + (Q(pk=pk),)
+    
+    name = post.get('name')
+    if name is not None:
+        param += param + (Q(category_name__icontains=name),)
+
+    print(param)
+    # assembling param tuple using * 
+    param = Q(*param)
+    data = Category.objects.prefetch_related('post').filter(param).all()
+    # data = CategorySerializer(data, context={'post' : data.post})
+    print(data)
+    return JsonResponse({
+        'status' : 200,
+        # 'data' : serializers.serialize(format='json', queryset=data) # return json encode in json
+        'data' : list( data.values()) # .values() is python snippet that can convert to list data type from dict
+    }, json_dumps_params={'indent': 4})
+
