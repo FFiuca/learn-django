@@ -1,3 +1,7 @@
 # any match will be execute
 def any_permission(*perms):
     return user_passes_test(lambda u: any(u.has_perm(perm) for perm in perms))
+
+# to create an object to related model from parent model, use Post.relatedModel_set.create(), "_set"
+# actually from what i get now, relatedModel_set is used when you use foregn_key syntax and want access from parent model. cause when i access from child_model can't
+

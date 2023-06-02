@@ -11,7 +11,7 @@ from .Models import category
 class Post(models.Model):
     id=models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True)
-    body = models.TextField()
+    body = models.TextField(blank=False)
     email = models.EmailField(
             blank=True,
             null=True,
@@ -32,7 +32,7 @@ class Post(models.Model):
     # )
 
     # this for one to many relationship, will add column automatically, ex category_id
-    category = models.ForeignKey(category.Category, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(category.Category, on_delete=models.CASCADE, null=True, related_name='post')
 
     class Meta:
         permissions =(
@@ -51,5 +51,15 @@ class Post(models.Model):
     def __str__(self):
         # print(self)
         return "{}, {}".format(self.title, self.body)
+
+
+class Tag(models.Model):
+    id= models.AutoField(primary_key=True)
+    tag_name= models.CharField(blank=False, max_length=255)
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(blank=True, auto_now=True)
+
+    def __str__(self):
+        return "{}, {}".format(self.id, self.tag_name)
 
 

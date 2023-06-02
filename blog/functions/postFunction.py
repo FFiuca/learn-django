@@ -8,11 +8,13 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required, permission_required
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes, authentication_classes, renderer_classes
+from rest_framework.renderers import JSONOpenAPIRenderer, JSONRenderer, TemplateHTMLRenderer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from abc import ABC, abstractmethod
 from django.db.models import Q
-from blog.serializers.blog import PostSerializer, CategorySerializer
+from blog.serializers.blog import PostSerializer, CategorySerializer, CategorySerializer2
 # import json
 
 @csrf_exempt
@@ -164,13 +166,13 @@ def get1(request):
     if pk is not None:
         # Q is useful to make dynamic query, just join and assemble at the end
         param= param + (Q(pk=pk),)
-    
+
     title = post.get('title')
     if title is not None:
         param += param + (Q(title__icontains=title),)
 
     print(param)
-    # assembling param tuple using * 
+    # assembling param tuple using *
     param = Q(*param)
     data = Post.objects.select_related('category').filter(param).all()
 
@@ -189,20 +191,92 @@ def getCat(request):
     if pk is not None:
         # Q is useful to make dynamic query, just join and assemble at the end
         param= param + (Q(pk=pk),)
-    
+
     name = post.get('name')
     if name is not None:
         param += param + (Q(category_name__icontains=name),)
 
     print(param)
-    # assembling param tuple using * 
+    # assembling param tuple using *
     param = Q(*param)
-    data = Category.objects.prefetch_related('post').filter(param).all()
-    # data = CategorySerializer(data, context={'post' : data.post})
-    print(data)
+    data = Category.objects.filter(param).all()
+    data = CategorySerializer(data, many=True).data
+    # print(data)
     return JsonResponse({
         'status' : 200,
         # 'data' : serializers.serialize(format='json', queryset=data) # return json encode in json
-        'data' : list( data.values()) # .values() is python snippet that can convert to list data type from dict
+        # 'data' : list( data.values()) # .values() is python snippet that can convert to list data type from dict
+        'data' : data
     }, json_dumps_params={'indent': 4})
 
+@csrf_exempt
+@api_view(('GET', 'POST'))
+@renderer_classes((JSONRenderer, TemplateHTMLRenderer))
+def getCat2(request):
+    param = ()
+
+    post = request.POST
+    pk = post.get('pk') or None
+    if pk is not None:
+        # Q is useful to make dynamic query, just join and assemble at the end
+        param= param + (Q(pk=pk),)
+
+    name = post.get('name')
+    if name is not None:
+        param += param + (Q(category_name__icontains=name),)
+
+    print(param)
+    # assembling param tuple using *
+    param = Q(*param)
+    data = Category.objects.filter(param).prefetch_related('post').all()
+    data = CategorySerializer2(data, many=True).data
+    # print(data)
+    # return JsonResponse({
+    #     'status' : 200,
+    #     # 'data' : serializers.serialize(format='json', queryset=data) # return json encode in json
+    #     # 'data' : list( data.values()) # .values() is python snippet that can convert to list data type from dict
+    #     'data' : data
+    # }, json_dumps_params={'indent': 4})
+
+    return Response({
+        'status' : 200,
+        'data' : data
+    })
+
+@csrf_exempt
+def getPost2(request):
+    post = Post.objects.prefetch_related('category').all()
+    post = PostSerializer(
+        post,
+        many=True
+    )
+
+    # return Response({
+    #     'status' : 200,
+    #     'data' : post.data
+    # })
+
+    return JsonResponse({
+        'status' : 200,
+        'data' : post.data
+    }, json_dumps_params={'indent': 4})
+
+@csrf_exempt
+@api_view(('GET', 'POST'))
+@renderer_classes((JSONRenderer, TemplateHTMLRenderer,))
+def getPost3(request):
+    posts = Post.objects.all()
+    post = PostSerializer(
+        posts,
+        many=True
+    )
+
+    # return Response({
+    #     'status' : 200,
+    #     'data' :post.data
+    # })
+
+    return JsonResponse({
+        'status' : 200,
+        'data' : post.data
+    }, json_dumps_params={'indent': 4})

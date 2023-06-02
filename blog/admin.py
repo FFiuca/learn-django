@@ -4,7 +4,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Post
+from .models import Post, Tag
 from .Models.category import Category
 
 
@@ -15,6 +15,10 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at']
 
+class TagAdmin(admin.ModelAdmin):
+    readonly_fields = ['created_at', 'updated_at']
+
 # register your class model and his setting here
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, TagAdmin)
